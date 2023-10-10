@@ -1,39 +1,44 @@
-/* Amber Light scheme (Default) */
+/* Pumpkin color for light color scheme (Default) */
 /* Can be forced with data-theme="light" */
-[data-theme="light"],
-:root:not([data-theme="dark"]) {
-  --primary: #ffb300;
-  --primary-hover: #ffa000;
-  --primary-focus: rgba(255, 179, 0, 0.125);
-  --primary-inverse: rgba(0, 0, 0, 0.75);
+[data-theme=light],
+:root:not([data-theme=dark]) {
+  --pico-text-selection-color: rgba(210, 122, 1, 0.25);
+  --pico-primary: #9c5900;
+  --pico-primary-background: #ff9500;
+  --pico-primary-underline: rgba(156, 89, 0, 0.5);
+  --pico-primary-hover: #7a4400;
+  --pico-primary-hover-background: #e48500;
+  --pico-primary-focus: rgba(210, 122, 1, 0.25);
+  --pico-primary-inverse: #000;
+  --pico-switch-color: var(--pico-secondary-hover);
 }
 
-/* Amber Dark scheme (Auto) */
+/* Pumpkin color for dark color scheme (Auto) */
 /* Automatically enabled if user has Dark mode enabled */
 @media only screen and (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --primary: #ffb300;
-    --primary-hover: #ffc107;
-    --primary-focus: rgba(255, 179, 0, 0.25);
-    --primary-inverse: rgba(0, 0, 0, 0.75);
+    --pico-text-selection-color: rgba(228, 133, 0, 0.1875);
+    --pico-primary: #e48500;
+    --pico-primary-background: #ff9500;
+    --pico-primary-underline: rgba(228, 133, 0, 0.5);
+    --pico-primary-hover: #ffa23a;
+    --pico-primary-hover-background: #ffa23a;
+    --pico-primary-focus: rgba(228, 133, 0, 0.25);
+    --pico-primary-inverse: #000;
+    --pico-switch-color: var(--pico-background-color);
   }
 }
 
-/* Amber Dark scheme (Forced) */
+/* Pumpkin color for dark color scheme (Forced) */
 /* Enabled if forced with data-theme="dark" */
-[data-theme="dark"] {
-  --primary: #ffb300;
-  --primary-hover: #ffc107;
-  --primary-focus: rgba(255, 179, 0, 0.25);
-  --primary-inverse: rgba(0, 0, 0, 0.75);
-  --nav-border-color: rgba(115,130,140,0.2);
-  --nav-logo-color: #0e1419;
-}
-
-/* Amber (Common styles) */
-:root {
-  --form-element-active-border-color: var(--primary);
-  --form-element-focus-color: var(--primary-focus);
-  --switch-color: var(--primary-inverse);
-  --switch-checked-background-color: var(--primary);
+[data-theme=dark] {
+  --pico-text-selection-color: rgba(228, 133, 0, 0.1875);
+  --pico-primary: #e48500;
+  --pico-primary-background: #ff9500;
+  --pico-primary-underline: rgba(228, 133, 0, 0.5);
+  --pico-primary-hover: #ffa23a;
+  --pico-primary-hover-background: #ffa23a;
+  --pico-primary-focus: rgba(228, 133, 0, 0.25);
+  --pico-primary-inverse: #000;
+  --pico-switch-color: var(--pico-background-color);
 }
