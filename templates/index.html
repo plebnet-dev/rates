@@ -47,13 +47,13 @@
             <button class="primary outline" name="swap">BTC</button>
           </div>
           <div class="col-sm-6">
-            <input type="text" id="satsamt" name="satsamt" placeholder="1.0" aria-label="btc" value="{{satsamt}}">
+            <input style="background-color:#10182B" type="text" id="satsamt" name="satsamt" placeholder="1.0" aria-label="btc" value="{{satsamt}}">
           </div>
         </div>
         <div class="row center-sm">
           <div class="col-sm-4">
             <form id="my-form" action="btc" method="post">
-              <select id="selected" name="selected">
+              <select id="selected" name="selected" style="background-color:#10182B">
                 {% for item in fiatlist %}
                 {% if item == fiattype %}
                 <option value="{{ item }}" selected>{{ item }}</option>
@@ -65,7 +65,7 @@
             </form>
           </div>
           <div class="col-sm-6">
-            <input type="text" name="fiat" id="fiat" aria-label="fiat" value="{{fiat}}">
+            <input style="background-color:#10182B" type="text" name="fiat" id="fiat" aria-label="fiat" value="{{fiat}}" />
           </div>
         </div>
       </div>
