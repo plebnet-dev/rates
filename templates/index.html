@@ -48,7 +48,7 @@
             <button class="primary outline" name="swap">Sats</button>
           </div>
           <div class="col-sm-6">
-            <input style="background-color:#10182B" type="text" id="satsamt" name="satsamt" placeholder="1000" aria-label="sats" value="{{satsamt}}">
+            <input style="background-color:#10182B" onclick="clearInput()" type="text" id="satsamt" name="satsamt" placeholder="1000" aria-label="sats" value="{{satsamt}}">
           </div>
           </div>
         <div class="row center-sm">
@@ -66,7 +66,7 @@
             </form>
           </div>
           <div class="col-sm-6">
-            <input style="background-color:#10182B" type="text" name="fiat" id="fiat" aria-label="fiat" value="{{fiat}}" />
+            <input style="background-color:#10182B"  onclick="clearFiat()" type="text" name="fiat" id="fiat" aria-label="fiat" value="{{fiat}}" />
           </div>
         </div>
       </div>
@@ -104,6 +104,14 @@
     const btclabel = document.getElementById('btc-label')
 
     const rate = fiatamt.value.replace(",", "") // 1 btc = fiat amt (and removing the format added initially in app.py since further conversion needs to happen.)
+
+    function clearInput() {
+      document.getElementById("satsamt").value = "";
+    }
+    function clearFiat() {
+      document.getElementById("fiat").value = "";
+    }
+
 
     dropdown.addEventListener('change', () => {
       console.log(dropdown.value)
