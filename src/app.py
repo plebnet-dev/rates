@@ -70,21 +70,22 @@ fiatlist = ['USD', 'EUR', 'JPY', 'CAD', 'AUD', 'GBP']
 @app.get("/")
 async def initial_page(request: Request):
 
+    satsamt = 100000000
     currency = 'USD'
     time, rate = coindesk_btc_fiat(currency)
-    btchkd = "%.2f" % rate
-    moscowtime = int(100000000/float(btchkd))
+    btcusd = "%.2f" % (rate)
+    moscowtime = int(100000000/float(btcusd))
     height = get_block_height()
-    btchkd = "{:,}".format(float(btchkd)) #formatting with commas
+    btcusd = "{:,}".format(float(btcusd)) #formatting with commas
 
     return templates.TemplateResponse("index.html",
                                       context={
                                           'request': request,
                                           'title': "Sats Converter",
-                                          'fiat': btchkd,
+                                          'fiat': btcusd,
                                           'fiattype': currency,
                                           'fiatlist': fiatlist,
-                                          'satsamt': 1.0,
+                                          'satsamt': satsamt,
                                           'moscow': moscowtime,
                                           'blockheight': height,
                                           'lastupdated': time})
@@ -106,6 +107,7 @@ async def submit_form(request: Request, selected: str = Form(...)):     # trunk-
         moscowtime = int(100000000/float(btcfiat))
         height = get_block_height()
         btcfiat = "{:,}".format(float(btcfiat))  #formatting with commas
+        satsamt = 100000000
 
 
         return templates.TemplateResponse("index.html",
@@ -114,6 +116,7 @@ async def submit_form(request: Request, selected: str = Form(...)):     # trunk-
                                               'fiattype': selected,
                                               'fiat': btcfiat,
                                               'fiatlist': fiatlist,
+                                              'satsamt': satsamt,
                                               'moscow': moscowtime,
                                               'blockheight': height,
                                               'lastupdated': time,
