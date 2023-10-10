@@ -73,6 +73,10 @@
       <label style="color:#ffb300">
         <span id="sats-label"></span> sats
       </label>
+      <label style="color:#ffb300">
+        <span id="btc-label"></span> BTC
+      </label>
+
       <label>
         1 BTC = {{fiat}} {{fiattype}}
       </label>
@@ -97,6 +101,7 @@
     const fiatamt = document.getElementById('fiat')
     const satsamt = document.getElementById('satsamt')
     const satlabel = document.getElementById('sats-label')
+    const btclabel = document.getElementById('btc-label')
 
     const rate = fiatamt.value.replace(",", "") // 1 btc = fiat amt (and removing the format added initially in app.py since further conversion needs to happen.)
 
@@ -115,9 +120,9 @@
       }
       const result = parseFloat(userInput) / rate * 100000000;  // convert btc to fiat rate
       //console.log("fiat section: " , rate)
-      satsamt.value = result.toLocaleString(undefined, { minimumFractionDigits: 2 }); 
-      satlabel.innerHTML = satsamt.value; // .toLocaleString(undefined, {minimumFractionDigits: 0});
-
+      satsamt.value = result.toLocaleString(undefined, { minimumFractionDigits: 0 }); 
+      satlabel.innerHTML = satsamt.value;
+      btclabel.innerHTML = (parseFloat(userInput) / rate).toLocaleString(undefined, {minimumFractionDigits: 5});
     });
 
     // btc input section
@@ -133,6 +138,7 @@
       fiatamt.value = result.toLocaleString(undefined, { minimumFractionDigits: 2 });   
       satsvalue= parseFloat(userInput); // * 100000000;
       satlabel.innerHTML = satsvalue.toLocaleString(undefined, { minimumFractionDigits: 0 });
+      btclabel.innerHTML = parseFloat(satsvalue / 100000000).toLocaleString(undefined, {minimumFractionDigits: 5});
 
     });
 
