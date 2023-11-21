@@ -1,0 +1,6 @@
+site_name: Rates
+site_url: https://example.com/
+nav:
+  - Home: index.md
+  - Rate API: rate.md
+  
