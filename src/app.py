@@ -25,7 +25,9 @@ def coindesk_btc_fiat(symbol):
     ticker = response.json()
     time = ticker["time"]['updated']
     rate = ticker['bpi'][symbol]['rate']
-    parsed_rate = atof(rate).replace(",","")
+
+    parsed_rate = atof(rate.replace(',', ''))
+
     return time, parsed_rate
 
 
