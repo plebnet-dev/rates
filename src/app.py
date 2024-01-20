@@ -8,6 +8,7 @@ import starlette.status as status
 from locale import atof, setlocale, LC_NUMERIC
 import logging
 import requests
+import coinbasepro as cbp
 
 def get_block_height():
     url = "https://api.blockchair.com/bitcoin/stats"
@@ -30,6 +31,15 @@ def coindesk_btc_fiat(symbol):
 
     return time, parsed_rate
 
+def coinbase_btc_fiat(symbol):
+    
+    client = cbp.PublicClient()
+
+    result = client.get_product_ticker(f'BTC-{symbol}')
+    rate = float(result['price'])
+    dt = result['time']
+    time = dt.strftime("%b %d, %Y %H:%M:%S UTC")
+    return time, rate
 
 title = "sats converter"
 description = "simple web app to convert fiat to btc"
@@ -74,7 +84,8 @@ async def initial_page(request: Request):
 
     satsamt = 100000000
     currency = 'USD'
-    time, rate = coindesk_btc_fiat(currency)
+    # time, rate = coindesk_btc_fiat(currency)
+    time, rate = coinbase_btc_fiat(currency)
     btcusd = "%.2f" % (rate)
     moscowtime = int(100000000/float(btcusd))
     height = get_block_height()
@@ -104,7 +115,9 @@ async def submit_form(request: Request, selected: str = Form(...)):     # trunk-
         if selected is None:
             return RedirectResponse('/', status_code=status.HTTP_302_FOUND)
 
-        time, rate = coindesk_btc_fiat(selected)
+        # time, rate = coindesk_btc_fiat(selected)
+        time, rate = coinbase_btc_fiat(currency)
+
         btcfiat = "%.2f" % rate
         moscowtime = int(100000000/float(btcfiat))
         height = get_block_height()
@@ -153,7 +166,9 @@ async def get_rate(pair: str):
         if currency is None:
             return RedirectResponse('/', status_code=status.HTTP_302_FOUND)
         
-        _, rate = coindesk_btc_fiat(currency.upper())
+        # _, rate = coindesk_btc_fiat(currency.upper())
+        _, rate = coinbase_btc_fiat(currency.upper())
+
 
         if not inverse and not sat:
             btcfiat = "%.2f" % rate
