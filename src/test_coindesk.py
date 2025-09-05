@@ -5,11 +5,12 @@ if __name__ == "__main__":
     asian_list = ['HKD', 'CNY', 'SGD', 'AUD', 'TWD', 'THB', 'KRW', 'JPY']
     g7currencies = ['HKD', 'CNY', 'SGD', 'GBP', 'EUR', 'AUD', 'JPY']
 
-    for symbol in asian_list:
-        time, rate = coindesk_btc_fiat(symbol)
-        arate = "%.2f" % rate
-        print(arate)
-        print(f'BTC/{symbol}: {"%.2f" % rate}')
+    for coin in asian_list:
+       symbol = f'BTC-{coin}'
+       time, rate = coindesk_btc_fiat(symbol)
+       arate = "%.2f" % rate
+       print(arate)
+       print(f'BTC-{coin}: {"%.2f" % rate}')
 
 
 '''
