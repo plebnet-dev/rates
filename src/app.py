@@ -20,15 +20,15 @@ def get_block_height():
 def coindesk_btc_fiat(symbol):
     # batch the requests together via asyncio or multiprocessing
     setlocale(LC_NUMERIC, '')
-    url = f'https://api.coindesk.com/v1/bpi/currentprice/{symbol}.json'
+    url = f'https://data-api.coindesk.com/index/cc/v1/latest/tick?market=cadli&instruments={symbol}'
     response = requests.get(url)
-    ticker = response.json()
-    time = ticker["time"]['updated']
-    rate = ticker['bpi'][symbol]['rate']
+    object = response.json()
 
-    parsed_rate = atof(rate.replace(',', ''))
+    data = object['Data'][symbol]
+    time = data["VALUE_LAST_UPDATE_TS"]
+    rate = data['VALUE']
 
-    return time, parsed_rate
+    return time, rate
 
 
 title = "sats converter"
@@ -66,7 +66,9 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory="static"), name='static')
 templates = Jinja2Templates(directory='templates/')
 
-fiatlist = ['USD', 'EUR', 'JPY', 'CAD', 'AUD', 'GBP', 'PLN']
+fiatlist = ['USD', 'EUR', 'JPY', 'CAD', 'AUD', 'GBP', 'PLN',
+            'CHF', 'HKD', 'CNY', 'SGD', 'TWD', 'THB', 'KRW', 
+            'BRL', 'RUB', 'TRY']
 
 # initial get for index page
 @app.get("/")
@@ -74,7 +76,8 @@ async def initial_page(request: Request):
 
     satsamt = 100000000
     currency = 'USD'
-    time, rate = coindesk_btc_fiat(currency)
+    symbol = 'BTC-'+currency
+    time, rate = coindesk_btc_fiat(symbol)
     btcusd = "%.2f" % (rate)
     moscowtime = int(100000000/float(btcusd))
     height = get_block_height()
@@ -104,7 +107,8 @@ async def submit_form(request: Request, selected: str = Form(...)):     # trunk-
         if selected is None:
             return RedirectResponse('/', status_code=status.HTTP_302_FOUND)
 
-        time, rate = coindesk_btc_fiat(selected)
+        symbol = 'BTC-'+selected
+        time, rate = coindesk_btc_fiat(symbol)
         btcfiat = "%.2f" % rate
         moscowtime = int(100000000/float(btcfiat))
         height = get_block_height()
@@ -153,7 +157,8 @@ async def get_rate(pair: str):
         if currency is None:
             return RedirectResponse('/', status_code=status.HTTP_302_FOUND)
         
-        _, rate = coindesk_btc_fiat(currency.upper())
+        symbol = (currency1+'-'+currency2).upper()
+        _, rate = coindesk_btc_fiat(symbol)
 
         if not inverse and not sat:
             btcfiat = "%.2f" % rate
